@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emp-deployment
+  labels:
+    app: emp
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: emp
+  template:
+    metadata:
+      labels:
+        app: emp
+    spec:
+      containers:
+      - name: emp
+        image: docker.io/saschak07/emp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emp-service
+spec:
+  type: NodePort
+  selector:
+    app: emp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30100
